@@ -20,6 +20,11 @@ area-calc = "area_calc.console:main"
 [tool.poetry.dependencies]
 python = "^3.12"
 click = "^8.1.7"
+pint = "^0.23"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.0.0"
+
+[tool.poetry.group.dev.dependencies]
+bpython = "^0.24"
+
