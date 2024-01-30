@@ -1,0 +1,25 @@
+# https://python-poetry.org/docs/pyproject/
+[tool.poetry]
+name = "area-calc"
+version = "0.1.0"
+authors = ["Chris King-Parra <chris@kingparra.work>"]
+description = "CLI utility to calculate area given a height and width."
+repository = "https://github.com/kingparra/aws-python"
+license = "MIT"
+readme = "readme.rst"
+packages = [{include = "area_calc", from = "src"}]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+area-calc = "area_calc.console:main"
+
+# https://python-poetry.org/docs/managing-dependencies/
+[tool.poetry.dependencies]
+python = "^3.12"
+click = "^8.1.7"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.0.0"
