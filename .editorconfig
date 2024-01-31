@@ -10,6 +10,9 @@ trim_trailing_whitespace = true
 end_of_line = lf
 charset = utf-8
 
+[*.rst]
+indent_size = 2
+
 [*.py]
 max_line_length = 88
 ensure_newline_before_comments = true
