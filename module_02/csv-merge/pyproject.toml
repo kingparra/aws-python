@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "csv-merge"
+version = "0.1.0"
+description = "CLI utility to merge CSV files on common columns"
+authors = ["Chris King-Parra <chris@kingparra.work>"]
+readme = "readme.rst"
+packages = [{include = "csv_merge", from = "src"}]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+csv-merge = "csv_merge.console:main"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pandas = "^2.2.0"
+pyarrow = "^15.0.0"
+click = "^8.1.7"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+bpython = "^0.24"

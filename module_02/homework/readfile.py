@@ -6,7 +6,7 @@ from pprint import pp
 def file_to_lines_list(fname):
     with open(fname) as file:
         lines_list = file.readlines()
-        return lines_list
+        return [line.rstrip() for line in lines_list]
 
 
 pp(file_to_lines_list("cars.csv"))
