@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "web-scraping"
+version = "0.1.0"
+description = ""
+authors = ["Chris King-Parra <chris@kingparra.work>"]
+readme = "readme.rst"
+packages = [{include = "web_scraping", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+beautifulsoup4 = "^4.12.3"
+lxml = "^5.1.0"
+requests = "^2.31.0"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+bpython = "^0.24"
+xonsh = {extras = ["full"], version = "^0.14.4"}
+pygments = "^2.17.2"
+prompt-toolkit = "^3.0.43"
+setproctitle = "^1.3.3"
+rich = "^13.7.0"
+
+
+[tool.poetry.group.debug.dependencies]
+icecream = "^2.1.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+scrape = "web_scraping.scrape:main"
+
