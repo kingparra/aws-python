@@ -1,0 +1,12 @@
+{
+  "region": "us-east-1",
+  "detail": {
+    "instance-id": "${id}",
+    "instance-ip": "${ip}",
+    "instance-name": "Lab5-Test"
+  },
+  "checkmk_creds": {
+    "admin": "cmkadmin",
+    "password": "${cmk_pw}"
+  }
+}
