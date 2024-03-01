@@ -58,3 +58,7 @@ class Lab6Stack(Stack):
             vpc=vpc,
             internet_facing=True
         )
+        listener = lb.add_listener("Listener", port=80)
+        listener.add_targets("Target", port=80, targets=[asg])
+        listener.connections.allow_default_port_from_any_ipv4(
+            "Open to the world")
