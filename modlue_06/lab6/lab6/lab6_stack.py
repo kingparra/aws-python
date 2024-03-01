@@ -62,3 +62,10 @@ class Lab6Stack(Stack):
         listener.add_targets("Target", port=80, targets=[asg])
         listener.connections.allow_default_port_from_any_ipv4(
             "Open to the world")
+        asg.scale_on_request_count(
+            "AModestLoad",
+            target_requests_per_minute=60)
+        CfnOutput(self,
+                  "LoadBalancer",
+                  export_name="LoadBalancer",
+                  value=lb.load_balancer_dns_name)
