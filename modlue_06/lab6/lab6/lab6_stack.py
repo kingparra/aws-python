@@ -3,6 +3,8 @@ from aws_cdk import (
     aws_ec2 as ec2,
     aws_s3 as s3,
     aws_elasticloadbalancingv2 as elbv2,
+    aws_ssm as ssm,
+    CfnParameter,
     App,
     CfnOutput,
     Stack
@@ -39,3 +41,20 @@ class Lab6Stack(Stack):
         super().__init__(scope, construct_id, **kwargs)
         vpc = ec2.Vpc(self, "VPC")
         user_data = ec2.UserData.for_linux().add_commands(data)
+        asg = autoscaling.AutoScalingGroup(
+            self,
+            "ASG",
+            vpc=vpc,
+            instance_type=ec2.InstanceType.of(
+                ec2.InstanceClass.BURSTABLE2,
+                ec2.InstanceSize.MICRO),
+            machine_image=ec2.AmazonLinuxImage(
+                generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2),
+            user_data=user_data
+        )
+        lb = elbv2.ApplicationLoadBalancer(
+            self,
+            "LB",
+            vpc=vpc,
+            internet_facing=True
+        )
