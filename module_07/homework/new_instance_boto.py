@@ -5,10 +5,6 @@ import boto3
 ec2client = boto3.client('ec2')  # returns json
 ec2 = boto3.resource('ec2')  # returns objects
 
-vpc_id = [str(vpc.id) for vpc in ec2.vpcs.all()
-          if {'Key': 'Name', 'Value': 'PYTHON-VPC'} in vpc.tags][0]
-print(f"vpc_id: {vpc_id}")
-
 public_subnet_1_id = \
     list(ec2.subnets.filter(
         Filters=[
@@ -17,7 +13,6 @@ public_subnet_1_id = \
             ]
         ))[0].id
 
-# Generate a list of amazon linux 2 ami ids
 img_response = ec2client.describe_images(
     Filters=[
         {'Name': 'name', 'Values': ['amzn2-ami-hvm-*']},
@@ -82,3 +77,17 @@ for instance in instances:
     print(f"{instance.instance_id} is up and running on {instance.public_ip_address}")
   except Error as e:
     print(f"{instance.instance_id} cannot launch")
+
+
+def terminate_named(name):
+    instances = ec2.instances.filter(
+        Filters=[{'Name': 'tag:Name', 'Values': [name]}]
+        )
+    for instance in instances:
+        instance.terminate()
+
+confirm_terminate = input("Terminate instances [y/N]? ")
+
+
+if confirm_terminate == y:
+    terminate_named('boto3-instance')
