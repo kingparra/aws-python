@@ -69,14 +69,14 @@ instances = ec2.create_instances(
 
 
 for instance in instances:
-  try:
-    # Wait until the instance is up
-    instance.wait_until_running()
-    # Refresh the ip info
-    instance.reload()
-    print(f"{instance.instance_id} is up and running on {instance.public_ip_address}")
-  except Error as e:
-    print(f"{instance.instance_id} cannot launch")
+    try:
+        # Wait until the instance is up
+        instance.wait_until_running()
+        # Refresh the ip info
+        instance.reload()
+        print(f"{instance.instance_id} is up and running on {instance.public_ip_address}")
+    except Error as e:
+        print(f"{instance.instance_id} cannot launch")
 
 
 def terminate_named(name):
@@ -89,5 +89,45 @@ def terminate_named(name):
 confirm_terminate = input("Terminate instances [y/N]? ")
 
 
+if confirm_terminate == "y":
+    terminate_named('boto3-instance')
+
+
+def terminate_named(name):
+    instances = ec2.instances.filter(
+        Filters=[{'Name': 'tag:Name', 'Values': [name]}]
+        )
+    for instance in instances:
+        instance.terminate()
+
+confirm_terminate = input("Terminate instances [y/N]? ")
+
 if confirm_terminate == y:
     terminate_named('boto3-instance')
+
+
+def generate_report():
+    # list all running ec2 instances
+    running_instances = list(ec2.instances.filter(
+        Filters=[{'Name': 'instance-state-name', 'Values': ['running']}]
+    ))
+    # list all security groups
+    all_sgs = list(ec2.security_groups.all())
+    # list sgs that are not being used
+    used_sgs = set([group.get('GroupId')
+                   for instance in running_instances
+                   for group in instance.security_groups])
+    unused_sgs = set(all_sgs) - used_sgs
+    return (running_instances, all_sgs, unused_sgs)
+
+
+def get_instance_name(instance):
+    for tag in instance.tags or []:
+        if tag['Key'] == 'Name':
+            return tag['Value']
+
+
+def format_report(running, all_sgs, unused_sgs):
+    print("Running instances")
+    for instance in running:
+        print(f"{get_instance_name(instance)}
