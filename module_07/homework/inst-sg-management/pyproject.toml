@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "inst-sg-management"
+version = "0.1.0"
+description = ""
+authors = ["Chris King-Parra <chris@kingparra.work>"]
+readme = "readme.rst"
+packages = [{include = "inst_sg_management", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+jinja2 = "^3.1.3"
+boto3 = "^1.34.59"
+
+
+[tool.poetry.group.explore.dependencies]
+xonsh = "^0.15.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+inst-mgmt = "inst_sg_management.console:main"
